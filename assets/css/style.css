@@ -1,0 +1,127 @@
+body {
+    background-image: url("../img/bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: none;
+    width: 100%;
+    height: 100vh;
+    font-family: "Roboto", sans-serif;
+}
+
+
+h3 {
+    color: #28888F;
+    font-family: Roboto;
+    font-weight: bold;
+}
+
+.login {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box {
+    width: 30%;
+    min-width: 300px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.60);
+    box-shadow: 0px 4px 14px 0px rgba(2, 5, 32, 0.75);
+    backdrop-filter: blur(12.5px);
+}
+
+.btn-main {
+    width: 100%;
+    background: #28888F;
+    color: white;
+}
+
+.btn-main:hover {
+    background: #1e7177;
+    color: rgb(226, 226, 226);
+}
+
+.regis {
+    widows: 100%;
+    height: 100vh;
+}
+
+.box-regis {
+    width: 45%;
+    height: 100%;
+    border-radius: 0px 24px 24px 0px;
+    background: #FFF;
+    box-shadow: 12px 0px 17px 0px rgba(2, 5, 32, 0.45);
+}
+
+.p-icon {
+    color: #8D8D8D;
+    font-family: Roboto;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .card-quest {
+    width: 48%;
+    border-radius: 6px;
+    border: 1px solid #28888F;
+  }
+
+  .act {
+    position: relative;
+  }
+
+  .card-nav {
+    height: 45px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.60);
+    box-shadow: 0px 4px 14px 0px rgba(2, 5, 32, 0.75);
+    backdrop-filter: blur(12.5px);
+  }
+
+  .act::after {
+    content: "";
+    position: absolute;
+    width: 60%;
+    height: 2px;
+    background: #28888F;
+    bottom: 0;
+    left: 0;
+    border-radius: 1px;
+    transition: all 0.3s ease-in-out;
+    left: 20%;
+    bottom: -3px;
+  }
+
+  h3 {
+    color: #28888F;
+    font-family: Roboto;
+    font-weight: bold;
+  }
+  
+  .btn-form {
+    color: white;
+    background-color: #28888F;
+  }
+
+  .btn-form:hover {
+    background: #1e7177;
+    color: rgb(226, 226, 226);
+  }
+
+  .home {
+    widows: 100%;
+    height: 100vh;
+  }
+
+  .box-data {
+    width: 100%;
+    min-height: 85vh;
+    border-radius: 24px 24px 0px 0px;
+    background: #FFF;
+    box-shadow: 0px 4px 17px 0px rgba(2, 5, 32, 0.45);
+  }

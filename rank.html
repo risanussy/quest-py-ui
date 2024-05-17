@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://img.freepik.com/premium-vector/game-icon-game-symbol-white-gamepad-blue-background-flat-style-vector-eps-10_532800-149.jpg">
+  <title>Rank UI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+  <style>
+    .act {
+      position: relative;
+    }
+
+    .act::after {
+      content: "";
+      position: absolute;
+      width: 60%;
+      height: 2px;
+      background: #28888F;
+      bottom: 0;
+      left: 0;
+      border-radius: 1px;
+      transition: all 0.3s ease-in-out;
+      left: 20%;
+      bottom: -3px;
+    }
+
+    .card-nav {
+      height: 45px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.60);
+      box-shadow: 0px 4px 14px 0px rgba(2, 5, 32, 0.75);
+      backdrop-filter: blur(12.5px);
+    }
+
+    h3 {
+      color: #28888F;
+      font-family: Roboto;
+      font-weight: bold;
+    }
+    
+    .btn-form {
+      color: white;
+      background-color: #28888F;
+    }
+
+    .btn-form:hover {
+      background: #1e7177;
+      color: rgb(226, 226, 226);
+    }
+
+    .home {
+      width: 100%;
+      height: 100vh;
+    }
+
+    .box-data {
+      width: 100%;
+      min-height: 85vh;
+      border-radius: 24px 24px 0px 0px;
+      background: #FFF;
+      box-shadow: 0px 4px 17px 0px rgba(2, 5, 32, 0.45);
+    }
+  </style>
+</head>
+<body>
+  <div class="home">
+    <div class="d-flex gap-4 p-3 mb-3">
+      <div class="card-nav gap-3 d-flex align-items-center p-2 px-4">
+        <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 54 54" fill="none">
+          <path d="M33.75 4.5H20.25V9H15.75V22.5H20.25V9H33.75V4.5ZM33.75 22.5H20.25V27H33.75V22.5ZM33.75 9H38.25V22.5H33.75V9ZM9 36H13.5V31.5H40.5V36H13.5V45H40.5V36H45V49.5H9V36Z" fill="#333333"/>
+        </svg>
+        <h6 style="margin: 0;padding: 0;" id="user-name">Anonim</h6>
+      </div>
+      <div class="card-nav gap-3 d-flex align-items-center p-2 px-4">
+        <svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="0 0 54 54" fill="none">
+        <path d="M13.5 4.5H40.5V9H13.5V4.5ZM9 13.5V9H13.5V13.5H9ZM9 40.5V13.5H4.5V40.5H9ZM13.5 45V40.5H9V45H13.5ZM40.5 45V49.5H13.5V45H40.5ZM45 40.5V45H40.5V40.5H45ZM45 13.5H49.5V40.5H45V13.5ZM45 13.5V9H40.5V13.5H45ZM24.75 11.25H29.25V15.75H36V20.25H22.5V24.75H36V38.25H29.25V42.75H24.75V38.25H18V33.75H31.5V29.25H18V15.75H24.75V11.25Z" fill="#FF8900"/>
+        </svg>
+        <h6 style="margin: 0;padding: 0;" id="user-point">-</h6>
+      </div>
+    </div>
+    <div class="box-data px-5 pt-4">
+      <nav class="d-flex justify-content-between">
+        <div class="d-flex gap-4">
+          <a href="home.html" class="fs-5 fw-light nav-link">Beranda</a>
+          <a href="rank.html" class="fs-5 fw-light nav-link act">Top Global</a>
+        </div>
+        <button class="btn btn-outline-danger" id="logout-button">Logout</button>
+      </nav>
+      <hr>
+      <h4 class="mt-5">Ranking Board.</h4>
+      <table class="table table-striped table-hover">
+        <thead style="background-color: #28888F;">
+          <tr>
+            <th scope="col">Rank.</th>
+            <th scope="col">Username.</th>
+            <th scope="col">Total Point.</th>
+            <th scope="col">Total Question.</th>
+            <th scope="col">Total Answered.</th>
+          </tr>
+        </thead>
+        <tbody id="ranking-body">
+          <!-- Rankings will be loaded here -->
+        </tbody>
+      </table>
+
+      <br><br>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+  <script>
+    $(document).ready(function() {
+      // Fetch user data
+      const username = Cookies.get('username');
+      if (username) {
+        $.get(`https://quest-py-36626ab33017.herokuapp.com/api/user/${username}`, function(data) {
+          if (data && data.user) {
+            $('#user-name').text(data.user.name);
+            $('#user-point').text(data.user.point);
+          }
+        });
+      }
+
+      // Fetch ranking data
+      $.get("https://quest-py-36626ab33017.herokuapp.com/api/users", function(data) {
+        if (data) {
+          data.forEach(function(rank, i) {
+            $('#ranking-body').append(`
+              <tr>
+                <th scope="row">${i + 1}</th>
+                <td>${rank.username}</td>
+                <td>${rank.point}</td>
+                <td>${rank.quests.length}</td>
+                <td>0</td>
+              </tr>
+            `);
+          });
+        }
+      });
+
+      // Logout button handler
+      $('#logout-button').click(function() {
+        $.ajax({
+          url: "https://quest-py-36626ab33017.herokuapp.com/api/logout",
+          method: 'GET',
+          success: function() {
+            Swal.fire({
+              title: "Logout!",
+              icon: "success",
+              allowOutsideClick: false,
+              allowEscapeKey: false
+            }).then(() => {
+              window.location.href = 'index.html'; // Redirect to home page
+            });
+          },
+          error: function(err) {
+            console.error(err);
+            Swal.fire({
+              title: "Error!",
+              icon: "error"
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
