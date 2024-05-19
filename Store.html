@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://img.freepik.com/premium-vector/game-icon-game-symbol-white-gamepad-blue-background-flat-style-vector-eps-10_532800-149.jpg">
+  <title>Game UI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="login">
+      <div class="box p-5">
+        <h3>Login Account.</h3>
+        <form class="mt-3" onsubmit="loginUser(event)">
+          <div class="form-group mb-3">
+            <input type="text" class="form-control" id="username" placeholder="Username">
+          </div>
+          <div class="form-group mb-3">
+            <input type="password" class="form-control" id="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-main">Login</button>
+          <br>
+          <b class="mt-3 w-100 text-center d-inline-block">Already have an account? <a href="regis.html">Register</a></b>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="content-store" class="container mt-5"></div>
+
+  <!-- Button to Open the Modal -->
+  <div class="container mt-3">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDataModal">
+      Add New Data
+    </button>
+  </div>
+
+  <!-- The Modal -->
+  <div class="modal" id="addDataModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add New Data</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <form id="addDataForm" onsubmit="addData(event)">
+            <div class="form-group mb-3">
+              <input type="text" class="form-control" id="name" placeholder="Name" required>
+            </div>
+            <div class="form-group mb-3">
+              <input type="number" class="form-control" id="price" placeholder="Price" required>
+            </div>
+            <div class="form-group mb-3">
+              <textarea class="form-control" id="description" placeholder="Description" required></textarea>
+            </div>
+            <div class="form-group mb-3">
+              <input type="text" class="form-control" id="category" placeholder="Category" required>
+            </div>
+            <button type="submit" class="btn btn-main">Add Data</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function loginUser(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('password', password);
+
+      $.ajax({
+        url: "http://127.0.0.1:5001/api/login",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function(res) {
+          Cookies.set('username', res.username);
+          showSuccessNotification();
+          fetchStoreData();
+        },
+        error: function(err) {
+          console.error(err);
+          showErrorNotification();
+        }
+      });
+    }
+
+    function fetchStoreData() {
+      $.ajax({
+        url: "http://127.0.0.1:5001/api/store",
+        type: "GET",
+        success: function(res) {
+          displayStoreData(res);
+        },
+        error: function(err) {
+          console.error(err);
+        }
+      });
+    }
+
+    function displayStoreData(stores) {
+      const contentStore = document.getElementById('content-store');
+      contentStore.innerHTML = ''; // Clear previous content
+
+      stores.forEach(store => {
+        const card = document.createElement('div');
+        card.className = 'card mb-3';
+        card.innerHTML = `
+          <div class="card-body">
+            <h5 class="card-title">${store.name}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Price: ${store.price}</h6>
+            <p class="card-text">${store.description}</p>
+            <p class="card-text"><small class="text-muted">Category: ${store.category}</small></p>
+          </div>
+        `;
+        contentStore.appendChild(card);
+      });
+    }
+
+    function showSuccessNotification() {
+      Swal.fire({
+        title: "Success!",
+        icon: "success",
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      }).then(() => {
+        window.location.href = 'home.html'; // Redirect to home page
+      });
+    }
+
+    function showErrorNotification() {
+      Swal.fire({
+        title: "Error!",
+        text: "Invalid username/password!",
+        icon: "error"
+      });
+    }
+
+    function addData(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const price = document.getElementById('price').value;
+      const description = document.getElementById('description').value;
+      const category = document.getElementById('category').value;
+
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('price', price);
+      formData.append('description', description);
+      formData.append('category', category);
+
+      $.ajax({
+        url: "http://127.0.0.1:5001/api/store",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(res) {
+          $('#addDataModal').modal('hide'); // Hide the modal
+          fetchStoreData(); // Refresh store data
+        },
+        error: function(err) {
+          console.error(err);
+          showErrorNotification();
+        }
+      });
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+  </html>
